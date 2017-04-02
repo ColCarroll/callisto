@@ -16,6 +16,7 @@ Callisto may be installed `from pypi <https://pypi.python.org/pypi/callisto>`_:
 
     pip install callisto
 
+Tested against python 2.7, 3.4, 3.5, 3.6.
 
 
 Basic Usage.
@@ -23,7 +24,9 @@ Basic Usage.
 Typical use is to just activate it inside a virtual environment:
 ::
 
-    $ source venv/bin/activate
+    $  virtualenv venv
+    ...
+    $  source venv/bin/activate
     (venv) $  callisto
     Successfully installed a new jupyter kernel "venv":
     {
@@ -31,7 +34,7 @@ Typical use is to just activate it inside a virtual environment:
       "language": "python",
       "display_name": "venv",
       "argv": [
-        "/Users/colin/projects/pete/venv/bin/python",
+        "/Users/colin/venv/bin/python",
         "-m",
         "ipykernel",
         "-f",
@@ -41,6 +44,8 @@ Typical use is to just activate it inside a virtual environment:
     See /Users/colin/Library/Jupyter/kernels/venv/kernel.json to edit.
 
 Jupyter servers will now have an option for a kernel called `venv`.
+
+.. image:: https://colindcarroll.com/img/venv.png
 
 Naming the kernel.
 ==================
@@ -53,7 +58,7 @@ You may also give kernels a more descriptive name:
       "env": {},
       "display_name": "pete",
       "argv": [
-        "/Users/colin/projects/pete/venv/bin/python",
+        "/Users/colin/venv/bin/python",
         "-m",
         "ipykernel",
         "-f",
@@ -65,6 +70,7 @@ You may also give kernels a more descriptive name:
 
 Jupyter servers will now have an option for a kernel called `venv`, and `pete`.
 
+.. image:: https://colindcarroll.com/img/venv_and_pete.png
 
 Deleting kernels.
 =================
@@ -75,7 +81,7 @@ Sometimes you may want to tidy kernels up a bit.
     Deleted jupyter kernel "venv" from /Users/colin/Library/Jupyter/kernels/venv/kernel.json:
     {
       "argv": [
-        "/Users/colin/projects/pete/venv/bin/python",
+        "/Users/colin/venv/bin/python",
         "-m",
         "ipykernel",
         "-f",
@@ -120,7 +126,7 @@ If you forgot the informative message about the kernel information, you can see 
       "display_name": "pete",
       "language": "python",
       "argv": [
-        "/Users/colin/projects/pete/venv/bin/python",
+        "/Users/colin/venv/bin/python",
         "-m",
         "ipykernel",
         "-f",
@@ -142,7 +148,7 @@ but using code from the project directories.
 
     {
       "argv": [
-        "/Users/colin/projects/pete/venv/bin/python",
+        "/Users/colin/venv/bin/python",
         "-m",
         "ipykernel",
         "-f",
