@@ -143,7 +143,7 @@ With isolated kernels, you may wish to run all your notebooks from a single dire
 but using code from the project directories.
 ::
 
-    (venv) $  callisto -n pete --path=/Users/colin/projects/pete/
+    (venv) $  callisto -n pete --path=$(pwd)
     Successfully installed a new jupyter kernel "pete":
 
     {
