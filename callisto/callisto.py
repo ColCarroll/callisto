@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+import subprocess
 
 import click
 from jupyter_client import kernelspec
@@ -50,6 +51,9 @@ def cli(name, path, list, delete):
                 fg='green')
             click.secho(json.dumps(kernel, indent=2))
             click.secho('See {} to edit.'.format(kernel_path), fg='green')
+            if need_to_install_ipykernel():
+                click.secho('Remember to install ipykernel before starting a jupyter notebook!',
+                            fg='red')
         else:
             click.secho('Failed to install a new jupyter kernel "{display_name}".\n'
                         'See {kernel_path} to confirm it isn\'t already there.'.format(
@@ -149,3 +153,12 @@ def confirm_kernel_path_is_safe(kernel_path):
     if not os.path.isdir(directory):
         os.makedirs(directory)
     return True
+
+
+def need_to_install_ipykernel():
+    """Check if ipykernel is installed"""
+    status = subprocess.call(['python', '-c', 'import ipykernel'],
+                             stderr=subprocess.STDOUT,
+                             stdout=open(os.devnull, 'w'),
+                             close_fds=True)
+    return status == 0
