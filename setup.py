@@ -10,7 +10,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as buff:
 
 setup(
     name='callisto',
-    version='0.4',
+    version='0.6',
     description='Create jupyter kernels from virtual environments',
     long_description=long_description,
     author='Colin Carroll',
