@@ -161,4 +161,4 @@ def need_to_install_ipykernel():
                              stderr=subprocess.STDOUT,
                              stdout=open(os.devnull, 'w'),
                              close_fds=True)
-    return status == 0
+    return status == 1
