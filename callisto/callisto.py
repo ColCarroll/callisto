@@ -133,7 +133,7 @@ def get_executable():
 def get_env(path):
     """Get any environment variables"""
     if path:
-        return {'PYTHONPATH': '{}:$PYTHONPATH'.format(path)}
+        return {'PYTHONPATH': path}
     else:
         return {}
 
@@ -157,8 +157,8 @@ def confirm_kernel_path_is_safe(kernel_path):
 
 def need_to_install_ipykernel():
     """Check if ipykernel is installed"""
-    status = subprocess.call(['python', '-c', 'import ipykernel'],
+    status = subprocess.call([get_executable(), '-c', 'import ipykernel'],
                              stderr=subprocess.STDOUT,
                              stdout=open(os.devnull, 'w'),
                              close_fds=True)
-    return status == 0
+    return status == 1

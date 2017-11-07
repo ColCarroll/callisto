@@ -75,7 +75,9 @@ class TestCallisto(unittest.TestCase):
             success, _, __ = callisto.install_kernel('', fake_env_path)
             self.assertFalse(success)
 
-    def test_cli(self, mock_kernelspec):
+    @patch('callisto.callisto.get_executable')
+    def test_cli(self, mock_executable, mock_kernelspec):
+        mock_executable.return_value = 'python'
         mock_kernelspec.jupyter_data_dir.return_value = self.tempdir
         runner = CliRunner()
 
@@ -85,8 +87,6 @@ class TestCallisto(unittest.TestCase):
         success, kernel, path = callisto.read_kernel('')
         self.assertTrue(success)
         self.assertIn(self.tempdir, path)
-        #  Make sure tempdir is also in the python executable
-        self.assertIn(self.tempdir, kernel['argv'][0])
 
         #  Can also confirm this with '-l'
         result = runner.invoke(callisto.cli, ["-l"])
