@@ -6,6 +6,8 @@ import click
 from jupyter_client import kernelspec
 
 VIRTUAL_ENV_VAR = 'VIRTUAL_ENV'
+CONDA_PREFIX = 'CONDA_PREFIX'
+CONDA_NAME = 'CONDA_DEFAULT_ENV'
 
 
 @click.command()
@@ -19,9 +21,10 @@ VIRTUAL_ENV_VAR = 'VIRTUAL_ENV'
 def cli(name, path, list, delete):
     """Manage jupyter kernel for this virtual environment."""
     if not in_virtual_env() and not name:
-        raise click.UsageError('The environment variable {} is not set (usually this is set '
-                               'automatically activating a virtualenv).  Please make sure you are '
-                               'in a virtual environment!'.format(VIRTUAL_ENV_VAR))
+        raise click.UsageError('The environment variables {} and {} are not set (usually this is '
+                               'set automatically activating a conda environment or virtualenv, '
+                               'respectively).  Please activate one of these and '
+                               'try again!'.format(CONDA_PREFIX, VIRTUAL_ENV_VAR))
     if list:
         success, kernel, kernel_path = read_kernel(name)
         if success:
@@ -56,7 +59,7 @@ def cli(name, path, list, delete):
 
 def in_virtual_env():
     """Check whether script is being run in a virtualenv."""
-    return bool(os.getenv(VIRTUAL_ENV_VAR))
+    return bool(os.getenv(VIRTUAL_ENV_VAR) or os.getenv(CONDA_PREFIX))
 
 
 def delete_kernel(name):
@@ -111,18 +114,22 @@ def get_display_name(name):
     """Display name for kernel"""
     if name:
         return name
+    conda_name = os.getenv(CONDA_NAME)
+    if conda_name:
+        return conda_name
     return os.path.basename(os.getenv(VIRTUAL_ENV_VAR))
 
 
 def get_executable():
     """Get the python executable path"""
-    return os.path.join(os.getenv(VIRTUAL_ENV_VAR), 'bin', 'python')
+    base_path = os.getenv(CONDA_PREFIX, os.getenv(VIRTUAL_ENV_VAR))
+    return os.path.join(base_path, 'bin', 'python')
 
 
 def get_env(path):
     """Get any environment variables"""
     if path:
-        return {'PYTHONPATH': '{}:PYTHONPATH'.format(path)}
+        return {'PYTHONPATH': '{}:$PYTHONPATH'.format(path)}
     else:
         return {}
 
